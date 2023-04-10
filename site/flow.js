@@ -57,7 +57,14 @@ function displayLoadedCategories(categories, retrievedFromCache) {
     $.each(loadedCategories, function (categoryName, subcategories) {
         html += `   
             <div class="card" style="height: 100%;">
-            <div class="card-header">` + categoryName + `</div>
+            <div class="card-header">
+            
+            <div class="form-check">
+                <input class="form-check-input category-checkbox" type="checkbox" value="" id="` + categoryName + `">
+                <label class="form-check-label" for="` + categoryName + `">` + categoryName + `</label>
+            </div>
+                        
+           </div>
             <ul class="list-group list-group-flush">`;
 
         $.each(subcategories, function (subcategoryName, subcategoryUrl) {
@@ -66,6 +73,15 @@ function displayLoadedCategories(categories, retrievedFromCache) {
         html += `</ul></div>`;
     });
     $("#categoriesDisplayCardsContainer").html(html);
+
+    $(".category-checkbox").change(function () {
+        if ($(".category-checkbox:checked").length > 0) {
+            $("#populateProductUrlsBtn").removeClass("disabled");
+        } else {
+            $("#populateProductUrlsBtn").addClass("disabled");
+        }
+    });
+
 
     if (retrievedFromCache) {
         $("#forceRefreshSubcategoriesContainer").slideDown();
@@ -89,11 +105,17 @@ function refreshCategories() {
 
 
 function populateProductUrls() {
+    btnToLoader(this);
 
     loadedCatalogProducts = {};
 
     var totalProducts = 0;
     $(".subcategory-card").each(function (index) {
+        var input = $(this).parent().parent().find("input");
+        if(!input.is(":checked")){
+            return;
+        }
+
         var category = $(this).attr("cat-name");
         var subcategory = $(this).attr("subcat-name");
         var subcategoryURL = $(this).attr("subcat-url");
@@ -138,8 +160,8 @@ function showDownloadImages(productsCount) {
         loadedCatalogOnlyNewProducts = calculateOnlyNewProducts();
         $(".fetchedProductsCountUnique").html(onlyNewProductsCount);
 
-        if(onlyNewProductsCount == 0){
-            $("#onlyNewImagesContainer").html("No new items since last download on <strong>"+lastFetchTimestamp+"</strong>")
+        if (onlyNewProductsCount == 0) {
+            $("#onlyNewImagesContainer").html("No new items since last download on <strong>" + lastFetchTimestamp + "</strong>")
         }
 
     } else {
@@ -217,7 +239,7 @@ function calculateOnlyNewProducts() {
             subcategoryUrl.forEach(productUrl => {
                 if (!(categoryName in prevCatSaved) ||
                     !(subcategoryName in prevCatSaved[categoryName]) ||
-                    $.inArray(productUrl, prevCatSaved[categoryName][subcategoryName]) === -1)  {
+                    $.inArray(productUrl, prevCatSaved[categoryName][subcategoryName]) === -1) {
                     newProductUrls.push(productUrl);
                 }
             });
@@ -226,7 +248,7 @@ function calculateOnlyNewProducts() {
                 if (!(categoryName in onlyNewItemsCat)) {
                     onlyNewItemsCat[categoryName] = {}
                 }
-                
+
                 onlyNewItemsCat[categoryName][subcategoryName] = newProductUrls
                 totalNewProductsCount += newProductUrls.length;
             }
