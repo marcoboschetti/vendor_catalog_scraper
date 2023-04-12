@@ -105,6 +105,7 @@ function loadProductFromURL(productUrl) {
         var productHtml = htmlDecode(data.product_http);
         var doc = document.getElementById('productsContainer').contentWindow.document;
 
+        $("#productsContainer").contents().find("html").html('');
         doc.open();
         doc.write(productHtml);
         doc.close();
