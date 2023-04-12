@@ -78,15 +78,15 @@ func listAllCategories(c *gin.Context) {
 
 func getSubcategoryProducts(c *gin.Context) {
 	subcategoryURL := c.Request.URL.Query().Get("subcat_url")
-	onlyLastPage := c.Request.URL.Query().Get("last_page")
+	numberOfPagesStr := c.Request.URL.Query().Get("number_of_pages")
 
-	isLastPage, err := strconv.ParseBool(onlyLastPage)
+	numberOfPages, err := strconv.Atoi(numberOfPagesStr)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
 		return
 	}
 
-	productsUrls, err := requestCatalogue(subcategoryURL, isLastPage)
+	productsUrls, err := requestCatalogue(subcategoryURL, numberOfPages)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": err.Error()})
 		return

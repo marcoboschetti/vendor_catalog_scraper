@@ -86,12 +86,20 @@
                         <div class="row">
                             <div class="col-md-9">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value=""
-                                        id="categoryDownloadLastPageCheck" checked>
-                                    <label class="form-check-label" for="flexCheckDefault">
-                                        <strong>Use first page only</strong> - Check only the first 32 products of each
-                                        subcategory. Strongly recommended if the last check was done recently.
-                                    </label>
+                                    <label for="totalFetchProduct" class="form-label">Number of last products in each
+                                        category</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="number" id="totalFetchProduct" class="form-control"
+                                                aria-describedby="totalFetchProductHelp" value="32">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div id="totalFetchProductHelp" class="form-text">
+                                                The site will look for the latest pages until we reach this number of
+                                                products (in pages of 32)
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -112,10 +120,12 @@
                     <h4 class="my-0 font-weight-normal">Download images</h4>
                 </div>
                 <div class="card-body">
-                    <h5 class="my-0 font-weight-normal">Download all retrieved images (<span class="fetchedProductsCount"></span>)</h5>
+                    <h5 class="my-0 font-weight-normal">Download all retrieved images (<span
+                            class="fetchedProductsCount"></span>)</h5>
                     <br>
                     <div>
-                        We found <strong><span class="fetchedProductsCount"> </span> products</strong> while fetching the
+                        We found <strong><span class="fetchedProductsCount"> </span> products</strong> while fetching
+                        the
                         categories. Now you can download them as images to your local PC.
                     </div>
                     <br>
@@ -124,10 +134,12 @@
                 </div>
                 <hr>
                 <div class="card-body" id="onlyNewImagesContainer">
-                    <h5 class="my-0 font-weight-normal">Download only new images (<span class="fetchedProductsCountUnique"></span>)</h5>
+                    <h5 class="my-0 font-weight-normal">Download only new images (<span
+                            class="fetchedProductsCountUnique"></span>)</h5>
                     <br>
                     <div>
-                        Only <strong><span class="fetchedProductsCountUnique"> </span> products</strong> are new since the last execution.
+                        Only <strong><span class="fetchedProductsCountUnique"> </span> products</strong> are new since
+                        the last execution.
                         <br>
                         Last recorded execution was on <strong><span id="fetchedProductsLastExecution"></span></strong>
                     </div>
@@ -138,8 +150,8 @@
             </div>
             <div class="card mb-4 shadow-sm" id="downloadProgressBarContainer" style="display: none;">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped" id="imagesProgressBar" role="progressbar" style="width: 0%"
-                        aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div class="progress-bar progress-bar-striped" id="imagesProgressBar" role="progressbar"
+                        style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>

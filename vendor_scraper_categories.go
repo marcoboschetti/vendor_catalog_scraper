@@ -55,10 +55,11 @@ func requestSubcategories(categoryPath string) (map[string]string, error) {
 
 const pageSize = 32
 
-func requestCatalogue(subcategoryPath string, isLastPage bool) ([]string, error) {
+func requestCatalogue(subcategoryPath string, numberOfPages int) ([]string, error) {
 	totalItems := -1
 	var productUrls []string
 
+	pageCount := 0
 	for pageStart := 0; ; {
 		totalItemsInPage, pageProductsUrl, err := iterateCataloguePage(subcategoryPath, pageStart, pageStart+pageSize)
 		if err != nil {
@@ -72,7 +73,8 @@ func requestCatalogue(subcategoryPath string, isLastPage bool) ([]string, error)
 		}
 
 		pageStart += pageSize
-		if pageStart >= totalItems || isLastPage {
+		pageCount += 1
+		if pageStart >= totalItems || pageCount >= numberOfPages {
 			break
 		}
 	}

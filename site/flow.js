@@ -59,16 +59,16 @@ function displayLoadedCategories(categories, retrievedFromCache) {
             <div class="card" style="height: 100%;">
             <div class="card-header">
             
-            <div class="form-check">
-                <input class="form-check-input category-checkbox" type="checkbox" value="" id="` + categoryName + `">
-                <label class="form-check-label" for="` + categoryName + `">` + categoryName + `</label>
-            </div>
+            <div class="form-check">` + categoryName + `</div>
                         
            </div>
             <ul class="list-group list-group-flush">`;
 
         $.each(subcategories, function (subcategoryName, subcategoryUrl) {
-            html += `<li class="list-group-item subcategory-card" cat-name="` + categoryName + `" subcat-name="` + subcategoryName + `" subcat-url="` + subcategoryUrl + `">` + subcategoryName + `</li>`;
+            html += `<li class="list-group-item subcategory-card" cat-name="` + categoryName + `" subcat-name="` + subcategoryName + `" subcat-url="` + subcategoryUrl + `">
+                <input class="form-check-input category-checkbox" type="checkbox" value="" id="` + subcategoryName + `">
+                <label class="form-check-label" for="` + subcategoryName + `">` + subcategoryName + `</label>
+            </li>`;
         })
         html += `</ul></div>`;
     });
@@ -111,7 +111,7 @@ function populateProductUrls() {
 
     var totalProducts = 0;
     $(".subcategory-card").each(function (index) {
-        var input = $(this).parent().parent().find("input");
+        var input = $(this).find("input");
         if(!input.is(":checked")){
             return;
         }
@@ -119,12 +119,20 @@ function populateProductUrls() {
         var category = $(this).attr("cat-name");
         var subcategory = $(this).attr("subcat-name");
         var subcategoryURL = $(this).attr("subcat-url");
-        var onlyLast = $("#categoryDownloadLastPageCheck").is(":checked");
+
+        var numberOfProducts = parseInt($("#totalFetchProduct").val());
+        if(numberOfProducts <= 0){
+            numberOfProducts = 1
+        }
+        var numberOfPages = Math.floor(numberOfProducts/32);
+        if(numberOfPages * 32 < numberOfProducts){
+            numberOfPages +=1;
+        }
 
         var subCatContainer = $(this);
         subCatContainer.append(loaderHtml);
 
-        $.get("/api/subcategory_products?subcat_url=" + encodeURIComponent(subcategoryURL) + "&last_page=" + onlyLast, function (data) {
+        $.get("/api/subcategory_products?subcat_url=" + encodeURIComponent(subcategoryURL) + "&number_of_pages=" + numberOfPages, function (data) {
             // FOR debug
             data.products_urls = data.products_urls;
 
