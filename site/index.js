@@ -1,5 +1,5 @@
 var loadedCatalogProducts;
-var loadedCatalogOnlyNewProducts;
+var loadedCatalogNewLabeledProducts;
 
 var categoriesKeys = [];
 var subcategoriesKeys = {};
@@ -9,10 +9,16 @@ var curSubcategoryIdx = 0;
 var curProductUrlIdx = 0;
 
 var totalProducts = 0;
+var totalLabeledProducts = 0;
 var processedProducts = 0;
 
 $("#downloadOnlyNewProductImages").click(function () {
-    loadedCatalogProducts = loadedCatalogOnlyNewProducts;
+    loadedCatalogProducts = loadedCatalogOnlyUndownloadedProducts;
+    startDownloadingProducts();
+})
+
+$("#downloadOnlyLabeledProductImages").click(function () {
+    loadedCatalogProducts = loadedCatalogNewLabeledProducts;
     startDownloadingProducts();
 })
 
@@ -33,6 +39,7 @@ function startDownloadingProducts() {
         });
     });
 
+    curProductUrlIdx = -1;
     processNextItem();
 }
 

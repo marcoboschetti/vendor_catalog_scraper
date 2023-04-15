@@ -108,11 +108,12 @@ function populateProductUrls() {
     btnToLoader(this);
 
     loadedCatalogProducts = {};
+    loadedCatalogNewLabeledProducts = {};
 
     var totalProducts = 0;
     $(".subcategory-card").each(function (index) {
         var input = $(this).find("input");
-        if(!input.is(":checked")){
+        if (!input.is(":checked")) {
             return;
         }
 
@@ -121,12 +122,12 @@ function populateProductUrls() {
         var subcategoryURL = $(this).attr("subcat-url");
 
         var numberOfProducts = parseInt($("#totalFetchProduct").val());
-        if(numberOfProducts <= 0){
+        if (numberOfProducts <= 0) {
             numberOfProducts = 1
         }
-        var numberOfPages = Math.floor(numberOfProducts/32);
-        if(numberOfPages * 32 < numberOfProducts){
-            numberOfPages +=1;
+        var numberOfPages = Math.floor(numberOfProducts / 32);
+        if (numberOfPages * 32 < numberOfProducts) {
+            numberOfPages += 1;
         }
 
         var subCatContainer = $(this);
@@ -144,7 +145,21 @@ function populateProductUrls() {
             if (!(category in loadedCatalogProducts)) {
                 loadedCatalogProducts[category] = {};
             }
-            loadedCatalogProducts[category][subcategory] = data.products_urls;
+            loadedCatalogProducts[category][subcategory] = $.map(data.products_urls, function (a) {
+                return a.url;
+            });;
+
+            if (!(category in loadedCatalogNewLabeledProducts)) {
+                loadedCatalogNewLabeledProducts[category] = {};
+            }
+            loadedCatalogNewLabeledProducts[category][subcategory] = [];
+            data.products_urls.forEach(element => {
+                if (element.is_new) {
+                    loadedCatalogNewLabeledProducts[category][subcategory].push(element.url);
+                    totalLabeledProducts +=1;
+                }
+            });
+
 
             var remainingLoaders = $(".subcategory-card .spinner-border").length;
             if (remainingLoaders == 0) {
@@ -171,13 +186,12 @@ function showDownloadImages(productsCount) {
         if (onlyNewProductsCount == 0) {
             $("#onlyNewImagesContainer").html("No new items since last download on <strong>" + lastFetchTimestamp + "</strong>")
         }
-
     } else {
         $("#onlyNewImagesContainer").html("No previous execution recorded. So no partial download available yet.")
     }
 
-
-
+    $(".fetchedProductsLabelCountUnique").html(totalLabeledProducts);
+    console.log("loadedCatalogNewLabeledProducts",loadedCatalogNewLabeledProducts)
     $("#downloadImagesContainer").slideDown();
 }
 

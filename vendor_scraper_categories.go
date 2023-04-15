@@ -55,9 +55,9 @@ func requestSubcategories(categoryPath string) (map[string]string, error) {
 
 const pageSize = 32
 
-func requestCatalogue(subcategoryPath string, numberOfPages int) ([]string, error) {
+func requestCatalogue(subcategoryPath string, numberOfPages int) ([]ProductUrl, error) {
 	totalItems := -1
-	var productUrls []string
+	var productUrls []ProductUrl
 
 	pageCount := 0
 	for pageStart := 0; ; {
@@ -82,7 +82,7 @@ func requestCatalogue(subcategoryPath string, numberOfPages int) ([]string, erro
 	return productUrls, nil
 }
 
-func iterateCataloguePage(subcategoryPath string, start, end int) (int, []string, error) {
+func iterateCataloguePage(subcategoryPath string, start, end int) (int, []ProductUrl, error) {
 	form := url.Values{}
 	form.Add("listar_catalogo_url", "/"+subcategoryPath)
 	form.Add("pos_i", fmt.Sprintf("%d", start))
@@ -128,11 +128,18 @@ func iterateCataloguePage(subcategoryPath string, start, end int) (int, []string
 		return 0, nil, err
 	}
 
-	var productsUrls []string
+	var productsUrls []ProductUrl
 	doc.Find(".container_item").Each(func(i int, anchor *goquery.Selection) {
 		productUrl, _ := anchor.Attr("href")
-		productsUrls = append(productsUrls, productUrl)
+		isNew := len(anchor.Find(".sale_text").Nodes) > 0
+
+		productsUrls = append(productsUrls, ProductUrl{productUrl, isNew})
 	}).Attr("href")
 
 	return totalItems, productsUrls, nil
+}
+
+type ProductUrl struct {
+	URL   string `json:"url"`
+	IsNew bool   `json:"is_new"`
 }

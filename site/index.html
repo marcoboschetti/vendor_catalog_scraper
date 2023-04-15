@@ -113,39 +113,73 @@
             </div>
         </div>
 
-
         <div class="card-deck mb-3 text-center" id="downloadImagesContainer" style="display: none;">
-            <div class="card mb-4 shadow-sm" id="downloadImagesBtnContainer">
-                <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Download images</h4>
-                </div>
-                <div class="card-body">
-                    <h5 class="my-0 font-weight-normal">Download all retrieved images (<span
-                            class="fetchedProductsCount"></span>)</h5>
-                    <br>
-                    <div>
-                        We found <strong><span class="fetchedProductsCount"> </span> products</strong> while fetching
-                        the
-                        categories. Now you can download them as images to your local PC.
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download all retrieved images (<span class="fetchedProductsCount"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                We found <strong><span class="fetchedProductsCount"> </span> products</strong> while
+                                fetching
+                                the
+                                categories. Now you can download them as images to your local PC.
+                            </div>
+                            <br>
+                            <button id="downloadAllProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download all fetched product
+                                images</button>
+                        </div>
                     </div>
-                    <br>
-                    <button id="downloadAllProductImages" type="button"
-                        class="btn btn-lg btn-block btn-outline-primary">Download all fetched product images</button>
                 </div>
-                <hr>
-                <div class="card-body" id="onlyNewImagesContainer">
-                    <h5 class="my-0 font-weight-normal">Download only new images (<span
-                            class="fetchedProductsCountUnique"></span>)</h5>
-                    <br>
-                    <div>
-                        Only <strong><span class="fetchedProductsCountUnique"> </span> products</strong> are new since
-                        the last execution.
-                        <br>
-                        Last recorded execution was on <strong><span id="fetchedProductsLastExecution"></span></strong>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download only new images (<span class="fetchedProductsCountUnique"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body" id="onlyNewImagesContainer">
+                            <div>
+                                Only <strong><span class="fetchedProductsCountUnique"> </span> products</strong> are new
+                                since
+                                the last execution.
+                                <br>
+                                Last recorded execution was on <strong><span
+                                        id="fetchedProductsLastExecution"></span></strong>
+                            </div>
+                            <br>
+                            <button id="downloadOnlyNewProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download only new products</button>
+                        </div>
                     </div>
-                    <br>
-                    <button id="downloadOnlyNewProductImages" type="button"
-                        class="btn btn-lg btn-block btn-outline-primary">Download only new products</button>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download only products with "Nuevo" label (<span class="fetchedProductsLabelCountUnique"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                We found <strong><span class="fetchedProductsLabelCountUnique"> </span>
+                                    products</strong>
+                                with
+                                the label "Nuevo" in the catalog.
+                            </div>
+                            <br>
+                            <button id="downloadOnlyLabeledProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download only products with "Nuevo"
+                                labeled</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card mb-4 shadow-sm" id="downloadProgressBarContainer" style="display: none;">
