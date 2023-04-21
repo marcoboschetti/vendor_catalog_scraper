@@ -13,7 +13,7 @@ var totalLabeledProducts = 0;
 var processedProducts = 0;
 
 $("#downloadOnlyNewProductImages").click(function () {
-    loadedCatalogProducts = loadedCatalogOnlyUndownloadedProducts;
+    loadedCatalogProducts = loadedCatalogOnlyNewProducts;
     startDownloadingProducts();
 })
 
@@ -27,7 +27,7 @@ $("#downloadAllProductImages").click(function () {
 })
 
 function startDownloadingProducts() {
-    $("#downloadImagesBtnContainer").slideUp();
+    $(".downloadImagesBtnContainer").slideUp();
     $("#downloadProgressBarContainer").slideDown();
 
     $.each(loadedCatalogProducts, function (category, subcategories) {
@@ -106,7 +106,10 @@ function loadProductFromURL(productUrl) {
         $('#productsContainer').unbind("load");
         $('#productsContainer').on("load", function () {
             resizeIFrameToFitContent();
-            saveIframeScreenshot(curCategoryKey, curSubcategory, productUrl, processNextItem);
+            
+            setTimeout(function(){
+                saveIframeScreenshot(curCategoryKey, curSubcategory, productUrl, processNextItem);
+            }, 500);
         });
 
         var productHtml = htmlDecode(data.product_http);
