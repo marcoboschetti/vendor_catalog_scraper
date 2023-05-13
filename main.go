@@ -2,17 +2,19 @@ package main
 
 import (
 	"fmt"
-	"html"
 	"net/http"
-	"net/http/httputil"
-	"net/url"
 	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+
+	"bitbucket.org/marcoboschetti/catalogscraper/src/data"
+	"bitbucket.org/marcoboschetti/catalogscraper/src/service"
 )
 
 func main() {
+	data.SetDbConnection()
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		fmt.Println("$PORT must be set. Defaulted to 8080")
@@ -33,116 +35,83 @@ func main() {
 	r.POST("/auth/vendor_login", loginVendor)
 
 	public := r.Group("/api")
-	public.Use(VendorAuthMiddleware)
-	public.GET("/all_categories", listAllCategories)
-	public.GET("/subcategory_products", getSubcategoryProducts)
-	public.GET("/category_products", listCategoryProducts)
-	public.POST("/get_product", getProduct)
+	registerLegacyEndpoints(public)
+	registerAPI(public)
 
 	r.Run()
 }
 
-func proxyAssets(subPath string) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		remote, err := url.Parse("https://www.argyros.com.pa")
-		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
-			return
-		}
+func registerAPI(public *gin.RouterGroup) {
+	// public.Use(scrappers.VendorAuthMiddleware)
+	admin := public.Group("/admin")
 
-		proxy := httputil.NewSingleHostReverseProxy(remote)
-		proxy.Director = func(req *http.Request) {
-			for k, v := range c.Request.Header {
-				req.Header.Add(k, v[0])
-			}
-			req.URL.Scheme = "https"
-			req.URL.Host = "www.argyros.com.pa"
-			req.Host = "www.argyros.com.pa"
-			req.URL.Path = subPath + c.Param("proxyPath")
-			req.URL.RawQuery = c.Request.URL.RawQuery
-		}
+	// For cron
+	admin.POST("/scrap_categories", ScrapAndPersistCategories)
+	admin.POST("/save_all_new_products", SaveAllNewProducts)
 
-		proxy.ServeHTTP(c.Writer, c.Request)
-	}
+	// For pdf generator
+	admin.GET("/categories", GetFullSubcategories)
+	admin.GET("/products/subcategory/:subcategory_id/:page", GetPagedProducts)
+	admin.GET("/products/:product_id", GetProduct)
+
 }
 
-func listAllCategories(c *gin.Context) {
-	categoryMap, err := getCategoriesList()
+func ScrapAndPersistCategories(c *gin.Context) {
+	err := service.ScrapAndSaveSubcategories()
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"category_map": categoryMap})
+	c.JSON(http.StatusOK, gin.H{"result": "categories map populated"})
 }
 
-func getSubcategoryProducts(c *gin.Context) {
-	subcategoryURL := c.Request.URL.Query().Get("subcat_url")
-	numberOfPagesStr := c.Request.URL.Query().Get("number_of_pages")
-
-	numberOfPages, err := strconv.Atoi(numberOfPagesStr)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
-		return
-	}
-
-	productsUrls, err := requestCatalogue(subcategoryURL, numberOfPages)
+func SaveAllNewProducts(c *gin.Context) {
+	err := service.ScrapSaveAllNewProducts()
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"products_urls": productsUrls})
+	c.JSON(http.StatusOK, gin.H{"result": "all new products populated"})
 }
 
-func listCategoryProducts(c *gin.Context) {
-	categoryMap, err := getCategoriesList()
+func GetFullSubcategories(c *gin.Context) {
+	categories, err := service.GetSubcategories()
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"message": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"category_map": categoryMap})
+	c.JSON(http.StatusOK, gin.H{"categories": categories})
 }
 
-func loginVendor(c *gin.Context) {
-	input := struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
-	}{}
-
-	err := c.ShouldBindJSON(&input)
+func GetPagedProducts(c *gin.Context) {
+	subcategoryID := c.Param("subcategory_id")
+	pageStr := c.Param("page")
+	page, err := strconv.Atoi(pageStr)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
 
-	err = login(input.Email, input.Password)
+	products, count, pageSize, err := service.GetPagedProducts(subcategoryID, page)
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
-	c.Status(http.StatusOK)
+	c.JSON(http.StatusOK, gin.H{"products": products, "total": count, "page_size": pageSize})
 }
 
-func getProduct(c *gin.Context) {
-	input := struct {
-		ProductUrl string `json:"product_url"`
-	}{}
+func GetProduct(c *gin.Context) {
+	productID := c.Param("product_id")
 
-	err := c.ShouldBindJSON(&input)
+	product, err := service.GetProductByID(productID)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
-	// Retrieve items
-	itemPayload, err := getOneItem(input.ProductUrl)
-	if err != nil {
-		c.JSON(http.StatusUnauthorized, gin.H{"message": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"product_http": html.EscapeString(itemPayload)})
+	c.JSON(http.StatusOK, gin.H{"product": product})
 }

@@ -1,0 +1,204 @@
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>Catalog scraper</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Custom styles for this template -->
+    <link href="/site/legacy/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Catalog Generator 🐟</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+        </nav>
+    </div>
+
+    <div class="container">
+
+
+        <div class="card-deck mb-3 text-center" id="loginCard">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Login to Argyros</h4>
+                </div>
+                <div class="card-body">
+                    <div>We need an username and password to get access to the catalog on your behalf</div>
+                    <hr>
+                    <form>
+                        <div class="row">
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4">
+                                <label for="argyrosEmailInput" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="argyrosEmailInput"
+                                    aria-describedby="emailHelp">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="argyrosPasswordInput" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="argyrosPasswordInput"
+                                    aria-describedby="emailHelp">
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <button id="loginToVendorBtn" type="button" class="btn btn-lg btn-block btn-outline-primary">Log
+                        in</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-deck mb-3 text-center" id="getCategoriesCard" style="display: none;">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Getting categories</h4>
+                </div>
+                <div class="card-body">
+
+                    <div id="subcategoriesLoaderContainer">
+                        <div>Loading all the existing categories and subcategories...</div>
+                        <hr>
+                        <div class="spinner-border text-info" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div id="forceRefreshSubcategoriesContainer" style="display: none;">
+                        <div>The categories listed here were saved from a previous session. You can force a refresh to
+                            retrieve them again if you believe they changed</div>
+                        <button id="forceCategoryRefresh" type="button"
+                            class="btn btn-lg btn-block btn-outline-primary">Force category refresh</button>
+                        <hr>
+                    </div>
+
+                    <br>
+                    <div id="getCategoriesLoadedContainer" style="display: none;">
+                        <div id="categoriesDisplayCardsContainer" class="category-gallery"></div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-check">
+                                    <label for="totalFetchProduct" class="form-label">Number of last products in each
+                                        category</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="number" id="totalFetchProduct" class="form-control"
+                                                aria-describedby="totalFetchProductHelp" value="32">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div id="totalFetchProductHelp" class="form-text">
+                                                The site will look for the latest pages until we reach this number of
+                                                products (in pages of 32)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button id="populateProductUrlsBtn" type="button"
+                                    class="btn btn-lg btn-block btn-outline-primary disabled">Fetch products</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-deck mb-3 text-center" id="downloadImagesContainer" style="display: none;">
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download all retrieved images (<span class="fetchedProductsCount"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                We found <strong><span class="fetchedProductsCount"> </span> products</strong> while
+                                fetching
+                                the
+                                categories. Now you can download them as images to your local PC.
+                            </div>
+                            <br>
+                            <button id="downloadAllProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download all fetched product
+                                images</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download only new images (<span class="fetchedProductsCountUnique"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body" id="onlyNewImagesContainer">
+                            <div>
+                                Only <strong><span class="fetchedProductsCountUnique"> </span> products</strong> are new
+                                since
+                                the last execution.
+                                <br>
+                                Last recorded execution was on <strong><span
+                                        id="fetchedProductsLastExecution"></span></strong>
+                            </div>
+                            <br>
+                            <button id="downloadOnlyNewProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download only new products</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download only products with "Nuevo" label (<span class="fetchedProductsLabelCountUnique"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                We found <strong><span class="fetchedProductsLabelCountUnique"> </span>
+                                    products</strong>
+                                with
+                                the label "Nuevo" in the catalog.
+                            </div>
+                            <br>
+                            <button id="downloadOnlyLabeledProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download only products with "Nuevo"
+                                labeled</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-4 shadow-sm" id="downloadProgressBarContainer" style="display: none;">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped" id="imagesProgressBar" role="progressbar"
+                        style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <iframe id="productsContainer" class="iframe-container"></iframe>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="/site/legacy/html2canvas.js"></script>
+<script src="/site/legacy/flow.js"></script>
+<script src="/site/legacy/index.js"></script>
+
+
+</html>
