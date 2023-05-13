@@ -13,6 +13,10 @@ import (
 var pgConnection *pg.DB
 
 func SetDbConnection() {
+	if pgConnection != nil {
+		return
+	}
+
 	address := os.Getenv("POSTGRES_URL")
 	port := os.Getenv("POSTGRES_PORT")
 	username := os.Getenv("POSTGRES_USERNAME")

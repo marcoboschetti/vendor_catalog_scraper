@@ -50,6 +50,7 @@ func modifyProductToCatalog(doc *goquery.Document) *goquery.Document {
 	doc.Find("br").Remove() // Avoid <br> elements
 
 	doc.Find("#exzoom").RemoveClass("hidden")
+	doc.Find("#referencia-producto").SetAttr("style", "font-size:1em; font-weight: bold;")
 
 	// Remove all images
 	doc.Find("#gen-img-ord").Remove()
@@ -69,15 +70,29 @@ func modifyProductToCatalog(doc *goquery.Document) *goquery.Document {
 	doc.Find("#description-2").Children().Last().Remove() // Price
 
 	descText, descTextOk := doc.Find("#description-2").Html()
+	var weightPrice string
+	var weightExists bool
 	if descTextOk == nil {
 		// descText := descText[:strings.LastIndex(descText, "|")] // Remove last "|"
 		doc.Find("#description-2").SetHtml(descText)
 
-		weightPrice, exists := doc.Find(".swatch-element").Attr("data-peso")
-		if exists {
+		if weightPrice, weightExists = doc.Find(".swatch-element").Attr("data-peso"); weightExists {
 			doc.Find("#description-2").Children().Last().SetHtml("Peso: " + weightPrice) // Weight price
 		}
 	}
+
+	if weightExists {
+		doc.Find(".exzoom_img_ul li").SetAttr("style", "position: relative; text-align: center;")
+
+		weightLabel := `
+<div class="bottom-right" style="
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+">Peso: ` + weightPrice + `</div>`
+		doc.Find(".exzoom_img_ul li").AppendHtml(weightLabel)
+	}
+
 	doc.Find(".swatch-element.available.seltdp label").SetAttr("style", "background: var(--color-id); color: #fff;") // "Color selected for all sizes"
 
 	// Fix sizes

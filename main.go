@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	data.SetDbConnection()
+	go data.SetDbConnection()
 
 	port := os.Getenv("PORT")
 	if port == "" {

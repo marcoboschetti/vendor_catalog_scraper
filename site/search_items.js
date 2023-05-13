@@ -100,7 +100,7 @@ function populateSearchedItems(products) {
             $("#" + prod.id + " div div.product__item__pic").first().css("background-image", 'url(' + bgImg.src + ')');
         };
         bgImg.prodID = prod.id;
-        bgImg.srcToLoad = prod.image_urls[0];
+        bgImg.srcToLoad = "/"+prod.image_urls[0];
         imagesToLoad.push(bgImg)
     });
 

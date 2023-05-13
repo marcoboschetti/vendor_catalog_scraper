@@ -1,260 +1,205 @@
-<!DOCTYPE html>
-<html lang="zxx">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="Male_Fashion Template">
-    <meta name="keywords" content="Male_Fashion, unica, creative, html">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Brillante | Online Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <title>Catalog scraper</title>
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-    rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="/site/template/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/site/template/css/font-awesome.min.css" type="text/css">
-    <link rel="stylesheet" href="/site/template/css/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="/site/template/css/magnific-popup.css" type="text/css">
-    <link rel="stylesheet" href="/site/template/css/nice-select.css" type="text/css">
-    <link rel="stylesheet" href="/site/template/css/owl.carousel.min.css" type="text/css">
-    <link rel="stylesheet" href="/site/template/css/slicknav.min.css" type="text/css">
-    <link rel="stylesheet" href="/site/template/css/style.css" type="text/css">
-    
-    <link rel="stylesheet" href="/site/index.css" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="/site/legacy/index.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Catalog Generator 🐟</h5>
+        <nav class="my-2 my-md-0 mr-md-3" style="margin-left: auto;">
+            <a type="button"  href="/site/index_marketplace.html" target="_blank" class="btn btn-lg btn-block btn-outline-primary">Lovely marketplace version</a>
+        </nav>
     </div>
-    <!-- Header Section Begin -->
-    <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="#">
-                            <img src="/site/img/logo.svg" alt="" class="logo">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <!-- <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li><a href="./index.html">Home</a></li>
-                            <li class="active"><a href="./shop.html">Shop</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="dropdown">
-                                    <li><a href="./about.html">About Us</a></li>
-                                    <li><a href="./shop-details.html">Shop Details</a></li>
-                                    <li><a href="./shopping-cart.html">Shopping Cart</a></li>
-                                    <li><a href="./checkout.html">Check Out</a></li>
-                                    <li><a href="./blog-details.html">Blog Details</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contacts</a></li>
-                        </ul>
-                    </nav> -->
-                </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
-                        <!-- <a href="#" class="search-switch"><img src="/site/template/img/icon/search.png" alt=""></a> -->
-                        <!-- <a href="#"><img src="/site/template/img/icon/heart.png" alt=""></a> -->
-                        <a href="#"><img src="/site/template/img/icon/cart.png" alt=""> <span>0</span></a>
-                        <div class="price">$0.00</div>
-                        <div class="price">Acá pondría un carrito, si tuviera uno</div>
-                    </div>
-                </div>
-            </div>
-            <div class="canvas__open"><i class="fa fa-bars"></i></div>
-        </div>
-    </header>
-    <!-- Header Section End -->
 
-    <!-- Shop Section Begin -->
-    <section class="shop xspad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="shop__sidebar">
-                        <div class="shop__sidebar__search">
-                            <form action="#">
-                                <!-- <input type="text" placeholder="Buscar..."> -->
-                                <!-- <button type="submit"><span class="icon_search"></span></button> -->
-                            </form>
-                        </div>
-                        <div class="shop__sidebar__accordion">
-                            <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseOne">Categorias</a>
-                                    </div>
-                                    <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__categories">
-                                                <ul class="nice-scroll" id="shopFiltersCategories">
-                                                    <div class="spinner-border text-info" role="status"><span class="visually-hidden"></span></div>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseTwo">Subcategorías</a>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__brand">
-                                                <ul class="nice-scroll" id="shopFiltersSubcategories">
-                                                    <div class="spinner-border text-info" role="status"><span class="visually-hidden"></span></div>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="container">
+
+
+        <div class="card-deck mb-3 text-center" id="loginCard">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Login to Argyros</h4>
                 </div>
-                <div class="col-lg-9">
-                    <div class="shop__product__option">
+                <div class="card-body">
+                    <div>We need an username and password to get access to the catalog on your behalf</div>
+                    <hr>
+                    <form>
                         <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="shop__product__option__left" id="searchPagesText">
-                                    <p></p>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-4">
+                                <label for="argyrosEmailInput" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="argyrosEmailInput"
+                                    aria-describedby="emailHelp">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="argyrosPasswordInput" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="argyrosPasswordInput"
+                                    aria-describedby="emailHelp">
+                            </div>
+                        </div>
+                    </form>
+                    <br>
+                    <button id="loginToVendorBtn" type="button" class="btn btn-lg btn-block btn-outline-primary">Log
+                        in</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card-deck mb-3 text-center" id="getCategoriesCard" style="display: none;">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">Getting categories</h4>
+                </div>
+                <div class="card-body">
+
+                    <div id="subcategoriesLoaderContainer">
+                        <div>Loading all the existing categories and subcategories...</div>
+                        <hr>
+                        <div class="spinner-border text-info" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+
+                    <div id="forceRefreshSubcategoriesContainer" style="display: none;">
+                        <div>The categories listed here were saved from a previous session. You can force a refresh to
+                            retrieve them again if you believe they changed</div>
+                        <button id="forceCategoryRefresh" type="button"
+                            class="btn btn-lg btn-block btn-outline-primary">Force category refresh</button>
+                        <hr>
+                    </div>
+
+                    <br>
+                    <div id="getCategoriesLoadedContainer" style="display: none;">
+                        <div id="categoriesDisplayCardsContainer" class="category-gallery"></div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="form-check">
+                                    <label for="totalFetchProduct" class="form-label">Number of last products in each
+                                        category</label>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <input type="number" id="totalFetchProduct" class="form-control"
+                                                aria-describedby="totalFetchProductHelp" value="32">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div id="totalFetchProductHelp" class="form-text">
+                                                The site will look for the latest pages until we reach this number of
+                                                products (in pages of 32)
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row" style="padding-bottom:1em">
-                        <div class="col-lg-12">
-                            <div class="product__pagination pagination_container">
-                               
+                            <div class="col-md-3">
+                                <button id="populateProductUrlsBtn" type="button"
+                                    class="btn btn-lg btn-block btn-outline-primary disabled">Fetch products</button>
                             </div>
                         </div>
-                    </div>
-                    <div class="row" id="productsContainer">
 
-                    </div>
-                    <div class="row" style="padding-bottom:1em">
-                        <div class="col-lg-12">
-                            <div class="product__pagination pagination_container">
-                                <a class="active" href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <span>...</span>
-                                <a href="#">21</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Shop Section End -->
 
-    <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="container">
-            <!-- <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="#"><img src="/site/template/img/footer-logo.png" alt=""></a>
-                        </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="/site/template/img/payment.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Delivary</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>NewLetter</h6>
-                        <div class="footer__newslatter">
-                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                            <form action="#">
-                                <input type="text" placeholder="Your email">
-                                <button type="submit"><span class="icon_mail_alt"></span></button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
+        <div class="card-deck mb-3 text-center" id="downloadImagesContainer" style="display: none;">
+
             <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="footer__copyright__text">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p>Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>
-                            Solo una idea en proceso | Hecho con <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> por <a target="_blank">Newt</a>
-                        </p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download all retrieved images (<span class="fetchedProductsCount"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                We found <strong><span class="fetchedProductsCount"> </span> products</strong> while
+                                fetching
+                                the
+                                categories. Now you can download them as images to your local PC.
+                            </div>
+                            <br>
+                            <button id="downloadAllProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download all fetched product
+                                images</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download only new images (<span class="fetchedProductsCountUnique"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body" id="onlyNewImagesContainer">
+                            <div>
+                                Only <strong><span class="fetchedProductsCountUnique"> </span> products</strong> are new
+                                since
+                                the last execution.
+                                <br>
+                                Last recorded execution was on <strong><span
+                                        id="fetchedProductsLastExecution"></span></strong>
+                            </div>
+                            <br>
+                            <button id="downloadOnlyNewProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download only new products</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                    <div class="card mb-4 shadow-sm downloadImagesBtnContainer">
+                        <div class="card-header">
+                            <h4 class="my-0 font-weight-normal">
+                                Download only products with "Nuevo" label (<span class="fetchedProductsLabelCountUnique"></span>)
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                We found <strong><span class="fetchedProductsLabelCountUnique"> </span>
+                                    products</strong>
+                                with
+                                the label "Nuevo" in the catalog.
+                            </div>
+                            <br>
+                            <button id="downloadOnlyLabeledProductImages" type="button"
+                                class="btn btn-lg btn-block btn-outline-primary">Download only products with "Nuevo"
+                                labeled</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="card mb-4 shadow-sm" id="downloadProgressBarContainer" style="display: none;">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped" id="imagesProgressBar" role="progressbar"
+                        style="width: 0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
         </div>
-    </footer>
-    <!-- Footer Section End -->
+    </div>
 
-    <!-- Search Begin -->
-    <!-- <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div> -->
-    <!-- Search End -->
-
-    <!-- Js Plugins -->
-    <script src="/site/template/js/jquery-3.3.1.min.js"></script>
-    <script src="/site/template/js/bootstrap.min.js"></script>
-    <script src="/site/template/js/jquery.nice-select.min.js"></script>
-    <script src="/site/template/js/jquery.nicescroll.min.js"></script>
-    <script src="/site/template/js/jquery.magnific-popup.min.js"></script>
-    <script src="/site/template/js/jquery.countdown.min.js"></script>
-    <script src="/site/template/js/jquery.slicknav.js"></script>
-    <script src="/site/template/js/mixitup.min.js"></script>
-    <script src="/site/template/js/owl.carousel.min.js"></script>
-    <script src="/site/template/js/main.js"></script>
-
-
-    <!-- Js Custom -->
-    <script src="/site/filters.js"></script>
-    <script src="/site/search_items.js"></script>
-    <script src="/site/index.js"></script>
+    <iframe id="productsContainer" class="iframe-container"></iframe>
 
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="/site/legacy/html2canvas.js"></script>
+<script src="/site/legacy/flow.js"></script>
+<script src="/site/legacy/index.js"></script>
+
 
 </html>
