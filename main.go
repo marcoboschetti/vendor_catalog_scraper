@@ -36,6 +36,7 @@ func main() {
 
 	public := r.Group("/api")
 	registerLegacyEndpoints(public)
+	registerRandom(public)
 	registerAPI(public)
 
 	r.Run()
