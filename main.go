@@ -8,12 +8,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"bitbucket.org/marcoboschetti/catalogscraper/src/data"
 	"bitbucket.org/marcoboschetti/catalogscraper/src/service"
 )
 
 func main() {
-	go data.SetDbConnection()
+	// go data.SetDbConnection()
 
 	port := os.Getenv("PORT")
 	if port == "" {
