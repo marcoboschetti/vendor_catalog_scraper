@@ -4,6 +4,8 @@ $("#populateProductUrlsBtn").click(populateProductUrls);
 
 var loadedCategories;
 $(document).ready(function () {
+    checkFestive();
+
     var savedUser = window.localStorage.getItem('vendor_username');
     var savedPass = window.localStorage.getItem('vendor_password');
     if (savedUser && savedPass) {
